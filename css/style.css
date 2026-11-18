@@ -1,0 +1,590 @@
+/* ===== CORES =====
+   Mude uma cor aqui em cima e ela muda no site inteiro.
+   Para usar: var(--nome-da-cor) */
+:root{
+    --preto: #0b0b12;
+    --cinza-escuro: #16161f;
+    --cinza: #9a9aad;
+    --texto: #e8e6f0;
+    --roxo: #6d3fc9;
+    --azul: #1f3a7a;
+}
+
+/* ===== BASE (vale para o site todo) ===== */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;          /* 1rem = 10px, facilita as contas */
+    scroll-behavior: smooth;   /* o menu "desliza" até a seção */
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.6rem;
+    background-color: var(--preto);
+    color: var(--texto);
+}
+
+::selection{
+    background-color: var(--roxo);   /* cor do texto quando você seleciona */
+}
+
+/* ===== MENU DE CIMA ===== */
+header{
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    min-height: 60px;
+    background-color: rgba(11, 11, 18, 0.8);        /* preto meio transparente */
+    backdrop-filter: blur(10px);                    /* desfoca o que passa atrás */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logo{
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-decoration: none;
+    /* texto com degradê roxo -> azul */
+    background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.navbar ul{
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.navbar a{
+    position: relative;
+    padding: 10px 15px;
+    font-size: 1.7rem;
+    color: var(--cinza);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* linha que cresce embaixo do link quando passa o mouse */
+.navbar a::after{
+    content: "";
+    position: absolute;
+    left: 15px;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    background-color: var(--roxo);
+    transition: width 0.3s ease;
+}
+
+.navbar a:hover{
+    color: #FFFFFF;
+}
+
+.navbar a:hover::after{
+    width: calc(100% - 30px);
+}
+
+/* ===== SEÇÕES (padrão) ===== */
+section{
+    min-height: 100vh;
+    padding: 100px 20px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section h2{
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* tracinho colorido embaixo de cada título */
+section h2::after{
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 12px auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--roxo), var(--azul));
+}
+
+/* ===== EFEITOS GERAIS ===== */
+/* barra de progresso no topo (o JavaScript aumenta a largura) */
+#barra{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    z-index: 200;
+    background: linear-gradient(90deg, var(--roxo), #60a5fa);
+}
+
+/* elementos com a classe "animar" começam escondidos e aparecem ao rolar */
+.animar{
+    opacity: 1;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animar.visivel{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== INÍCIO (texto na esquerda, foto na direita) ===== */
+.hero{
+    position: relative;
+    overflow: hidden;
+    flex-direction: row;
+    gap: 70px;
+    background:
+        radial-gradient(circle at 80% 70%, rgba(31, 58, 122, 0.5), transparent 50%),
+        var(--preto);
+}
+
+/* bolha de luz roxa que passeia pelo fundo */
+.hero::before{
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 15%;
+    left: 10%;
+    border-radius: 50%;
+    background: var(--roxo);
+    filter: blur(120px);
+    opacity: 0.3;
+    animation: passear 12s ease-in-out infinite alternate;
+}
+
+@keyframes passear{
+    from{ transform: translate(0, 0); }
+    to{ transform: translate(200px, 120px); }
+}
+
+.hero > *{
+    position: relative;   /* deixa texto e foto na frente da bolha */
+    z-index: 1;
+}
+
+.foto-hero{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--roxo);
+    box-shadow: 0 0 35px rgba(109, 63, 201, 0.6);
+    animation: flutuar 4s ease-in-out infinite;
+}
+
+@keyframes flutuar{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-12px); }
+}
+
+.hero-texto{
+    animation: aparecer 1.2s ease;
+}
+
+@keyframes aparecer{
+    from{ opacity: 0; transform: translateY(20px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+.hero h1{
+    font-size: 6rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #FFFFFF, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.codigo{
+    min-height: 2.6rem;
+    font-family: "Courier New", monospace;
+    font-size: 1.8rem;
+    color: #a78bfa;
+}
+
+.cursor{
+    animation: piscar 1s steps(1) infinite;
+}
+
+@keyframes piscar{
+    50%{ opacity: 0; }
+}
+
+.subtitulo{
+    max-width: 440px;
+    margin-top: 15px;
+    font-size: 1.9rem;
+    line-height: 2.8rem;
+    color: var(--cinza);
+}
+
+/* ===== SOBRE ===== */
+#sobre{
+    background-color: var(--cinza-escuro);
+}
+ 
+/* texto centralizado, sem caixa em volta */
+.sobre-caixa{
+    max-width: 800px;
+    text-align: center;
+}
+ 
+.sobre-caixa p{
+    margin-bottom: 22px;
+    font-size: 1.9rem;
+    line-height: 3.2rem;
+    color: var(--texto);
+}
+ 
+.sobre-caixa p:first-child{
+    font-size: 2.2rem;      /* o primeiro parágrafo é maior */
+}
+ 
+.sobre-caixa p:last-child{
+    margin-bottom: 0;
+}
+ 
+/* palavras importantes com degradê */
+.destaque{
+    font-weight: bold;
+    background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ===== SKILLS (cards que viram) ===== */
+#skills ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    list-style: none;
+}
+
+#skills li{
+    width: 170px;
+    height: 200px;
+    perspective: 800px;     /* dá a sensação de profundidade no giro */
+    outline: none;
+}
+
+.card-interno{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease;
+}
+
+/* passou o mouse (ou clicou/tocou): o card gira */
+#skills li:hover .card-interno,
+#skills li:focus .card-interno{
+    transform: rotateY(180deg);
+}
+
+/* frente e verso ficam um em cima do outro */
+.frente, .verso{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backface-visibility: hidden;          /* esconde o lado de trás */
+    -webkit-backface-visibility: hidden;
+}
+
+.frente{
+    background-color: var(--cinza-escuro);
+}
+
+.frente img{
+    width: 70px;
+    height: 70px;
+}
+
+.verso{
+    transform: rotateY(180deg);
+    background: linear-gradient(145deg, var(--roxo), var(--azul));
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+.verso strong{
+    font-size: 1.9rem;
+}
+
+/* ===== PROJETOS ===== */
+#projetos{
+    background-color: var(--cinza-escuro);
+}
+
+#projetos p{
+    color: var(--cinza);
+}
+
+/* ===== CONTATO ===== */
+.contato-grid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 850px;
+}
+
+.contato-info{
+    max-width: 320px;
+}
+
+.contato-info h3{
+    margin-bottom: 12px;
+    font-size: 2.6rem;
+}
+
+.contato-info p{
+    margin-bottom: 20px;
+    line-height: 2.6rem;
+    color: var(--cinza);
+}
+
+/* botõezinhos de link */
+.links{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.links a{
+    padding: 8px 18px;
+    font-size: 1.4rem;
+    color: var(--texto);
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    transition: all 0.3s ease;
+}
+
+.links a:hover{
+    background-color: var(--roxo);
+    border-color: var(--roxo);
+    transform: translateY(-3px);
+}
+
+/* formulário dentro de um card pequeno */
+#contato form{
+    width: 100%;
+    max-width: 340px;
+    padding: 25px;
+    background-color: rgba(22, 22, 31, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(109, 63, 201, 0.15);
+}
+
+#contato label{
+    display: block;
+    margin-bottom: 14px;
+    font-size: 1.3rem;
+    color: var(--cinza);
+}
+
+#contato input, #contato textarea{
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 12px;
+    font-size: 1.4rem;
+    font-family: inherit;
+    color: var(--texto);
+    background-color: var(--preto);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    resize: none;
+}
+
+#contato input:focus, #contato textarea:focus{
+    outline: none;
+    border-color: var(--roxo);
+    box-shadow: 0 0 10px rgba(109, 63, 201, 0.5);
+}
+
+#contato button{
+    width: 100%;
+    padding: 10px;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    background: linear-gradient(90deg, var(--roxo), var(--azul));
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contato button:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(109, 63, 201, 0.4);
+}
+
+/* ===== HOBBIES (galeria de fotos) ===== */
+#hobbies{
+    background-color: var(--cinza-escuro);
+}
+
+/* grade de fotos */
+.galeria{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-auto-rows: 240px;
+    gap: 15px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.galeria figure{
+    position: relative;
+    overflow: hidden;           /* o zoom não passa da moldura */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* a foto favorita ocupa o espaço de 4 fotos */
+.galeria .grande{
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.galeria img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* a foto preenche sem esticar */
+    transition: transform 0.6s ease;
+}
+
+.galeria figure:hover img{
+    transform: scale(1.1);
+}
+
+/* legenda que sobe ao passar o mouse */
+.galeria figcaption{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 30px 15px 12px;
+    background: linear-gradient(transparent, rgba(11, 11, 18, 0.9));
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.galeria figure:hover figcaption{
+    transform: translateY(0);
+}
+
+.galeria figcaption strong{
+    display: block;
+    margin-bottom: 4px;
+    font-size: 1.8rem;
+}
+
+.galeria figcaption span{
+    font-size: 1.4rem;
+    line-height: 2rem;
+    color: #d9d4e6;
+}
+
+/* celular: não existe "passar o mouse", então a legenda fica sempre visível */
+@media (hover: none){
+    .galeria figcaption{
+        transform: none;
+    }
+}
+
+/* telas bem pequenas: a foto grande volta ao tamanho normal */
+@media (max-width: 600px){
+    .galeria .grande{
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
+
+/* ===== RODAPÉ (minimalista) ===== */
+footer{
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--cinza);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+footer a{
+    color: var(--cinza);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover{
+    color: #a78bfa;
+}
+
+/* ===== CELULAR (telas pequenas) ===== */
+@media (max-width: 700px){
+    header{
+        flex-direction: column;
+        padding: 10px;
+    }
+    .navbar a{
+        padding: 6px 10px;
+        font-size: 1.5rem;
+    }
+    .hero{
+        flex-direction: column-reverse;   /* foto em cima, texto embaixo */
+        text-align: center;
+        gap: 30px;
+    }
+    .hero h1{
+        font-size: 4rem;
+    }
+    .sobre-caixa{
+        padding: 25px;
+    }
+    .sobre-caixa p{
+        font-size: 1.6rem;
+        line-height: 2.7rem;
+    }
+    .sobre-caixa p:first-child{
+        font-size: 1.8rem;
+    }
+    .contato-grid{
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    .links{
+        justify-content: center;
+    }
+}
